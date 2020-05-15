@@ -30,17 +30,26 @@ func httpFlood(w http.ResponseWriter,r *http.Request){
 		//接受endcodeing/json编码的数据
 		con, _ := ioutil.ReadAll(r.Body)
 		fmt.Println(string(con))
-		fmt.Printf("访问成功，总访问数%d",*NUM)
+		fmt.Printf("访问成功，总访问数:%d",*NUM)
+		//todo 写入数据库，模拟dbflood
+		//todo 从txt中读取db数据
 	}
 }
 
+func test(w http.ResponseWriter,r *http.Request){
+	fmt.Printf("in func\n")
+}
+
+
 func main(){
-	//定义一个方法，url为/httpflood
 	NUM=new(int64)
+	//定义一个方法，url为/httpflood
 	http.HandleFunc("/httpFlood",httpFlood)
+	http.HandleFunc("/",test)
 	err:=http.ListenAndServe(":9090",nil)
+	//自定义地址和端口
+	//err:=http.ListenAndServe("10.28.186.172:9090",nil)
 	if err != nil{
 		fmt.Printf("some thing wrong %v",err)
 	}
-
 }
